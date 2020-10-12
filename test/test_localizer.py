@@ -72,6 +72,17 @@ class TestException(unittest.TestCase):
             lingua_franca.load_language(12)
 
 
+class TestDeprecation(unittest.TestCase):
+    def test_deprecate_explicit_null_lang(self):
+        unload_all_languages()
+        lingua_franca.set_default_lang('en')
+        with self.assertWarns(DeprecationWarning):
+            self.assertEqual(
+                lingua_franca.parse.extract_number("one", lang=None),
+                1
+            )
+
+
 class TestLanguageLoading(unittest.TestCase):
     def test_load_language(self):
         lingua_franca.load_language('en')

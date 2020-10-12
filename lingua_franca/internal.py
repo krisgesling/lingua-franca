@@ -395,14 +395,27 @@ def localized_function(run_own_code_on=[type(None)]):
 
             # Check if we're passing a lang as a kwarg
             if 'lang' in kwargs.keys():
-                lang_code = kwargs['lang']
+                lang_param = kwargs['lang']
+                if lang_param == None:
+                    warn(DeprecationWarning("Lingua Franca is dropping support"
+                                            " for 'lang=None' as an explicit"
+                                            " argument."))
+                else:
+                    lang_code = lang_param
 
             # Check if we're passing a lang as a positional arg
             elif lang_param_index < len(args):
-                arg_in_lang_pos = args[lang_param_index]
-                if arg_in_lang_pos in _SUPPORTED_LANGUAGES or \
-                        arg_in_lang_pos in _SUPPORTED_FULL_LOCALIZATIONS:
+                lang_param = args[lang_param_index]
+                if lang_param == None:
+                    warn(DeprecationWarning("Lingua Franca is dropping support"
+                                            " for 'lang=None' as an explicit"
+                                            " argument."))
+                    lang_code = get_default_lang()
+                elif lang_param in _SUPPORTED_LANGUAGES or \
+                        lang_param in _SUPPORTED_FULL_LOCALIZATIONS:
                     lang_code = args[lang_param_index]
+                args = args[:lang_param_index] + args[lang_param_index+1:]
+
             if not lang_code:
                 raise NoSuchModuleError("No language module loaded.")
 
