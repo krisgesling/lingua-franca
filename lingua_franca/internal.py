@@ -392,6 +392,8 @@ def localized_function(run_own_code_on=[type(None)]):
 
             # Momentarily assume we're not passing a lang code
             lang_code = get_default_lang()
+            if not lang_code:
+                raise NoSuchModuleError("No language module loaded.")
 
             # Check if we're passing a lang as a kwarg
             if 'lang' in kwargs.keys():
@@ -416,9 +418,6 @@ def localized_function(run_own_code_on=[type(None)]):
                         lang_param in _SUPPORTED_FULL_LOCALIZATIONS:
                     lang_code = args[lang_param_index]
                 args = args[:lang_param_index] + args[lang_param_index+1:]
-
-            if not lang_code:
-                raise NoSuchModuleError("No language module loaded.")
 
             if lang_code not in _SUPPORTED_LANGUAGES:
                 try:
