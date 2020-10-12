@@ -400,6 +400,7 @@ def localized_function(run_own_code_on=[type(None)]):
                     warn(DeprecationWarning("Lingua Franca is dropping support"
                                             " for 'lang=None' as an explicit"
                                             " argument."))
+                    lang_code = get_default_lang()
                 else:
                     lang_code = lang_param
 

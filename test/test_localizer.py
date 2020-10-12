@@ -82,6 +82,15 @@ class TestDeprecation(unittest.TestCase):
                 1
             )
 
+    def test_deprecate_positional_null_lang(self):
+        unload_all_languages()
+        lingua_franca.set_default_lang('en')
+        with self.assertWarns(DeprecationWarning):
+            self.assertEqual(
+                lingua_franca.parse.extract_number("one", True, False, None),
+                1
+            )
+
 
 class TestLanguageLoading(unittest.TestCase):
     def test_load_language(self):
