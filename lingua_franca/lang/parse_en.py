@@ -29,6 +29,7 @@ from lingua_franca.lang.common_data_en import _ARTICLES_EN, _NUM_STRING_EN, \
 import re
 import json
 from lingua_franca.internal import resolve_resource_file
+from lingua_franca.time import now_local
 
 
 def _convert_words_to_numbers_en(text, short_scale=True, ordinals=False):
@@ -577,7 +578,8 @@ def extract_duration_en(text):
     text = _convert_words_to_numbers_en(text)
 
     for unit_en in time_units:
-        unit_pattern = pattern.format(unit=unit_en[:-1])   # remove 's' from unit
+        unit_pattern = pattern.format(
+            unit=unit_en[:-1])   # remove 's' from unit
 
         def repl(match):
             time_units[unit_en] += float(match.group(1))
@@ -655,7 +657,7 @@ def extract_datetime_en(text, anchorDate=None, default_time=None):
                 minAbs or secOffset != 0
             )
     if not anchorDate:
-        anchorDate = datetime.now()
+        anchorDate = now_local()
     if text == "":
         return None
 
